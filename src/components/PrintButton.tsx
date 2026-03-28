@@ -6,7 +6,7 @@ export function PrintButton() {
   return (
     <button
       onClick={handlePrint}
-      className="w-full px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition-colors font-medium flex items-center justify-center gap-2"
+      className="w-full px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition-colors font-medium flex items-center justify-center gap-2 cursor-pointer"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

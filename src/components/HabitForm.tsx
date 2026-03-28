@@ -46,14 +46,14 @@ export function HabitForm({ habits, onAdd, onRemove, onReorder }: HabitFormProps
         />
         <button
           type="submit"
-          className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition-colors"
+          className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition-colors cursor-pointer"
         >
           Add
         </button>
         <button
           type="button"
           onClick={handleAddEmpty}
-          className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors"
+          className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors cursor-pointer"
           title="Add empty column to fill in by hand"
         >
           Add Empty
@@ -89,7 +89,7 @@ export function HabitForm({ habits, onAdd, onRemove, onReorder }: HabitFormProps
                         </span>
                         <button
                           onClick={() => onRemove(habit.id)}
-                          className="ml-1 w-4 h-4 flex items-center justify-center text-gray-500 hover:text-gray-800 transition-colors"
+                          className="ml-1 w-4 h-4 flex items-center justify-center text-gray-500 hover:text-gray-800 transition-colors cursor-pointer"
                           aria-label={`Remove ${habit.name || 'empty habit'}`}
                         >
                           ×

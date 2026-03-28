@@ -106,9 +106,7 @@ export function HabitTable({
                     key={habit.id}
                     className="border border-gray-300 px-3 py-2 text-xs font-semibold text-gray-800 uppercase tracking-wide"
                   >
-                    {habit.name || (
-                      <span className="inline-block w-16 border-b border-gray-400">&nbsp;</span>
-                    )}
+                    {habit.name || '\u00A0'}
                   </th>
                 ))}
               </tr>
