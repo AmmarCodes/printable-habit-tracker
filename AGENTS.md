@@ -23,7 +23,6 @@ npm run preview      # Preview production build locally
 - **React 19** - UI framework (functional components, hooks)
 - **TypeScript 6** - Type safety (strict mode enabled)
 - **Tailwind CSS 4** - Utility-first styling
-- **@hello-pangea/dnd** - Drag and drop for habit reordering
 
 ## Code Style Guidelines
 
@@ -45,7 +44,7 @@ import { useState, useMemo, useEffect } from 'react';
 import type { Habit, PageSize, Direction } from './types';
 
 // 3. External libraries
-import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+import { formatDate } from './utils/date';
 
 // 4. Internal modules
 import { HabitForm } from './components/HabitForm';

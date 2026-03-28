@@ -34,7 +34,6 @@ function App() {
     // Handlers
     handleAddHabit,
     handleRemoveHabit,
-    handleReorderHabits,
     handleToggleDirection,
     handleSetStartDate,
     handleSetEndDate,
@@ -102,7 +101,6 @@ function App() {
               habits={habits}
               onAdd={handleAddHabit}
               onRemove={handleRemoveHabit}
-              onReorder={handleReorderHabits}
             />
           </section>
 

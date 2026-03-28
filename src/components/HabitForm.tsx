@@ -1,15 +1,13 @@
 import { useState } from 'react';
-import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import type { Habit } from '../types';
 
 interface HabitFormProps {
   habits: Habit[];
   onAdd: (name: string) => void;
   onRemove: (id: string) => void;
-  onReorder: (habits: Habit[]) => void;
 }
 
-export function HabitForm({ habits, onAdd, onRemove, onReorder }: HabitFormProps) {
+export function HabitForm({ habits, onAdd, onRemove }: HabitFormProps) {
   const [inputValue, setInputValue] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -22,16 +20,6 @@ export function HabitForm({ habits, onAdd, onRemove, onReorder }: HabitFormProps
 
   const handleAddEmpty = () => {
     onAdd(''); // Empty habit name
-  };
-
-  const handleDragEnd = (result: { destination: { index: number } | null; source: { index: number } }) => {
-    if (!result.destination) return;
-    
-    const items = Array.from(habits);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-    
-    onReorder(items);
   };
 
   return (
@@ -63,46 +51,25 @@ export function HabitForm({ habits, onAdd, onRemove, onReorder }: HabitFormProps
       {habits.length === 0 ? (
         <p className="text-gray-500 text-sm">Add habits to get started</p>
       ) : (
-        <DragDropContext onDragEnd={handleDragEnd}>
-          <Droppable droppableId="habits">
-            {(provided) => (
-              <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                className="flex flex-wrap gap-2"
+        <div className="flex flex-wrap gap-2">
+          {habits.map((habit) => (
+            <div
+              key={habit.id}
+              className="inline-flex items-center gap-1 px-3 py-1.5 bg-white border border-gray-300 rounded-full text-sm"
+            >
+              <span className={!habit.name ? 'text-gray-400 italic' : ''}>
+                {habit.name || '(empty)'}
+              </span>
+              <button
+                onClick={() => onRemove(habit.id)}
+                className="ml-1 w-4 h-4 flex items-center justify-center text-gray-500 hover:text-gray-800 transition-colors cursor-pointer"
+                aria-label={`Remove ${habit.name || 'empty habit'}`}
               >
-                {habits.map((habit, index) => (
-                  <Draggable key={habit.id} draggableId={habit.id} index={index}>
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        className={`inline-flex items-center gap-1 px-3 py-1.5 bg-white border rounded-full text-sm ${
-                          snapshot.isDragging
-                            ? 'border-gray-400 shadow-md'
-                            : 'border-gray-300'
-                        }`}
-                      >
-                        <span className={!habit.name ? 'text-gray-400 italic' : ''}>
-                          {habit.name || '(empty)'}
-                        </span>
-                        <button
-                          onClick={() => onRemove(habit.id)}
-                          className="ml-1 w-4 h-4 flex items-center justify-center text-gray-500 hover:text-gray-800 transition-colors cursor-pointer"
-                          aria-label={`Remove ${habit.name || 'empty habit'}`}
-                        >
-                          ×
-                        </button>
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
+                ×
+              </button>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

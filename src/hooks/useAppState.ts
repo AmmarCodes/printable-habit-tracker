@@ -130,10 +130,6 @@ export function useAppState() {
     setHabits(prev => prev.filter(h => h.id !== id));
   }, []);
 
-  const handleReorderHabits = useCallback((reorderedHabits: Habit[]) => {
-    setHabits(reorderedHabits);
-  }, []);
-
   const handleToggleDirection = useCallback(() => {
     setDirection(prev => prev === 'ltr' ? 'rtl' : 'ltr');
   }, []);
@@ -180,7 +176,6 @@ export function useAppState() {
     // Handlers
     handleAddHabit,
     handleRemoveHabit,
-    handleReorderHabits,
     handleToggleDirection,
     handleSetStartDate,
     handleSetEndDate,

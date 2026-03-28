@@ -8,7 +8,7 @@ A simple, clean habits tracker that generates printable habit tables. Define you
 
 ## Features
 
-- **Custom Habits** - Add, remove, and reorder habits with drag-and-drop
+- **Custom Habits** - Add and remove habits
 - **Empty Columns** - Add blank habit columns to fill in by hand after printing
 - **Flexible Date Range** - Set any start and end date for your tracker
 - **Multiple Page Sizes** - Support for A4, Letter, A5, and Legal paper sizes
@@ -27,7 +27,6 @@ Enter the habits you want to track in the "Your Habits" section. You can:
 
 - Type a habit name and click "Add"
 - Click "Add Empty" to create blank columns you can fill in by hand later
-- Drag and drop to reorder habits
 - Click the × to remove a habit
 
 ### 2. Set Your Date Settings
@@ -90,21 +89,16 @@ The built files will be in the `dist` directory.
 - **React 19** - UI framework
 - **TypeScript** - Type safety
 - **Tailwind CSS 4** - Utility-first styling
-- **@hello-pangea/dnd** - Drag and drop for habit reordering
+
 
 ## Print Tips
 
 For best results when printing:
 
-1. Use Landscape orientation for more columns
-2. Set margins to "Default" or "Minimum"
-3. Enable "Background graphics" in print settings for row striping
-4. Each table page is self-contained with proper borders
+1. Set margins to "Default" or "Minimum"
+2. Enable "Background graphics" in print settings for row striping
+3. Each table page is self-contained with proper borders
 
 ## License
 
 MIT
-
----
-
-Developed by [Ammar Alakkad](https://ammar.codes)
