@@ -9,36 +9,88 @@ import { PrintButton } from './components/PrintButton';
 import { LocaleSelector } from './components/LocaleSelector';
 import './index.css';
 
-function App() {
-  // Habits state
-  const [habits, setHabits] = useState<Habit[]>(() => {
-    const saved = localStorage.getItem('habits');
-    return saved ? JSON.parse(saved) : [];
-  });
+// Helper to parse saved date strings
+function parseDate(dateStr: string | null): Date | null {
+  if (!dateStr) return null;
+  const date = new Date(dateStr);
+  return isNaN(date.getTime()) ? null : date;
+}
 
-  // Date range state
+// Migration: move old 'habits' key to new 'appState' key
+(function migrateOldStorage() {
+  const oldHabits = localStorage.getItem('habits');
+  if (oldHabits && !localStorage.getItem('appState')) {
+    try {
+      const habits = JSON.parse(oldHabits);
+      localStorage.setItem('appState', JSON.stringify({ habits }));
+      localStorage.removeItem('habits');
+    } catch (e) {
+      console.error('Failed to migrate old habits:', e);
+    }
+  }
+})();
+
+function App() {
+  // Load saved state from localStorage
+  const savedState = (() => {
+    try {
+      const saved = localStorage.getItem('appState');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return {
+          habits: parsed.habits || [],
+          startDate: parseDate(parsed.startDate),
+          endDate: parseDate(parsed.endDate),
+          pageSize: parsed.pageSize || 'A4',
+          rowsPerPage: parsed.rowsPerPage || 31,
+          showCheckboxes: parsed.showCheckboxes ?? true,
+          direction: parsed.direction || 'ltr',
+          locale: parsed.locale || 'en',
+        };
+      }
+    } catch (e) {
+      console.error('Failed to load saved state:', e);
+    }
+    return null;
+  })();
+
+  // Default dates
   const today = new Date();
   const thirtyDaysLater = new Date(today);
   thirtyDaysLater.setDate(today.getDate() + 30);
-  
-  const [startDate, setStartDate] = useState<Date>(today);
-  const [endDate, setEndDate] = useState<Date>(thirtyDaysLater);
+
+  // Habits state
+  const [habits, setHabits] = useState<Habit[]>(savedState?.habits || []);
+
+  // Date range state
+  const [startDate, setStartDate] = useState<Date>(savedState?.startDate || today);
+  const [endDate, setEndDate] = useState<Date>(savedState?.endDate || thirtyDaysLater);
 
   // Page settings state
-  const [pageSize, setPageSize] = useState<PageSize>('A4');
-  const [rowsPerPage, setRowsPerPage] = useState<number>(31);
-  const [showCheckboxes, setShowCheckboxes] = useState<boolean>(true);
+  const [pageSize, setPageSize] = useState<PageSize>(savedState?.pageSize || 'A4');
+  const [rowsPerPage, setRowsPerPage] = useState<number>(savedState?.rowsPerPage || 31);
+  const [showCheckboxes, setShowCheckboxes] = useState<boolean>(savedState?.showCheckboxes ?? true);
 
   // Direction state
-  const [direction, setDirection] = useState<Direction>('ltr');
+  const [direction, setDirection] = useState<Direction>(savedState?.direction || 'ltr');
 
   // Locale state
-  const [locale, setLocale] = useState<Locale>('en');
+  const [locale, setLocale] = useState<Locale>(savedState?.locale || 'en');
 
-  // Persist habits to localStorage
+  // Persist all state to localStorage
   useEffect(() => {
-    localStorage.setItem('habits', JSON.stringify(habits));
-  }, [habits]);
+    const state = {
+      habits,
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString(),
+      pageSize,
+      rowsPerPage,
+      showCheckboxes,
+      direction,
+      locale,
+    };
+    localStorage.setItem('appState', JSON.stringify(state));
+  }, [habits, startDate, endDate, pageSize, rowsPerPage, showCheckboxes, direction, locale]);
 
   // Generate date range
   const dates = useMemo(() => {
