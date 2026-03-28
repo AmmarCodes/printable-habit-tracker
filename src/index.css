@@ -2,7 +2,10 @@
 
 @layer base {
   body {
-    font-family: system-ui, -apple-system, sans-serif;
+    font-family:
+      system-ui,
+      -apple-system,
+      sans-serif;
   }
 }
 
@@ -26,6 +29,18 @@
     display: block;
   }
 
+  /* Ensure colors print correctly */
+  * {
+    color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Prevent rows from splitting across pages */
+  tr {
+    break-inside: avoid;
+  }
+
   /* Remove section margin in print for consistent top alignment */
   section.mt-8 {
     margin-top: 0 !important;
@@ -40,11 +55,8 @@
   .print-table {
     break-before: page;
     page-break-before: always;
-    padding-top: 8mm;
     box-shadow: none !important;
     overflow: visible !important;
-    border: 1px solid #d1d5db;
-    border-radius: 0.5rem;
   }
 
   .print-table:first-child {
