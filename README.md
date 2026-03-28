@@ -27,9 +27,14 @@ Enter the habits you want to track in the "Your Habits" section. You can:
 - Drag and drop to reorder habits
 - Click the × to remove a habit
 
-### 2. Set Your Date Range
+### 2. Set Your Date Settings
 
-Choose the start and end dates for your tracker. The default is 30 days from today.
+Choose the start and end dates for your tracker, and select how dates should be formatted:
+- **Default**: `Mon Jan 01`
+- **ISO**: `2024-01-01`
+- **Day Only**: `Monday`
+
+The default date range is 30 days from today.
 
 ### 3. Configure Page Settings
 
@@ -40,10 +45,6 @@ Choose the start and end dates for your tracker. The default is 30 days from tod
 ### 4. Choose Your Layout
 
 - **Locale** - Select date formatting language (English or Arabic)
-- **Date Format** - Choose how dates appear:
-  - Default: `Mon Jan 01`
-  - ISO: `2024-01-01`
-  - Day Only: `Monday`
 - **Direction** - Toggle between LTR and RTL layouts
 
 ### 5. Print

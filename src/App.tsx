@@ -186,15 +186,18 @@ function App() {
 
           {/* Settings Row */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Date Range */}
+            {/* Date Settings */}
             <section className="bg-white rounded-lg shadow-sm p-6">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">Date Range</h2>
-              <DateRangePicker
-                startDate={startDate}
-                endDate={endDate}
-                onStartDateChange={setStartDate}
-                onEndDateChange={setEndDate}
-              />
+              <h2 className="text-lg font-semibold text-gray-800 mb-4">Date Settings</h2>
+              <div className="space-y-4">
+                <DateRangePicker
+                  startDate={startDate}
+                  endDate={endDate}
+                  onStartDateChange={setStartDate}
+                  onEndDateChange={setEndDate}
+                />
+                <DateFormatSelector dateFormat={dateFormat} onChange={setDateFormat} />
+              </div>
             </section>
 
             {/* Page Settings */}
@@ -210,12 +213,11 @@ function App() {
               />
             </section>
 
-            {/* Direction & Print */}
+            {/* Layout & Print */}
             <section className="bg-white rounded-lg shadow-sm p-6">
               <h2 className="text-lg font-semibold text-gray-800 mb-4">Layout & Print</h2>
               <div className="space-y-4">
                 <LocaleSelector locale={locale} onChange={setLocale} />
-                <DateFormatSelector dateFormat={dateFormat} onChange={setDateFormat} />
                 <DirectionToggle direction={direction} onToggle={handleToggleDirection} />
                 <PrintButton />
               </div>
