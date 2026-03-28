@@ -1,5 +1,6 @@
-import { useState, useMemo, useEffect } from 'react';
-import type { Habit, PageSize, Direction, Locale, DateFormat } from './types';
+import { useMemo } from 'react';
+import type { PageSize } from './types';
+import { useAppState } from './hooks/useAppState';
 import { HabitForm } from './components/HabitForm';
 import { DateRangePicker } from './components/DateRangePicker';
 import { PageSettingsPanel } from './components/PageSettingsPanel';
@@ -10,93 +11,39 @@ import { LocaleSelector } from './components/LocaleSelector';
 import { DateFormatSelector } from './components/DateFormatSelector';
 import './index.css';
 
-// Helper to parse saved date strings
-function parseDate(dateStr: string | null): Date | null {
-  if (!dateStr) return null;
-  const date = new Date(dateStr);
-  return isNaN(date.getTime()) ? null : date;
-}
-
-// Migration: move old 'habits' key to new 'appState' key
-(function migrateOldStorage() {
-  const oldHabits = localStorage.getItem('habits');
-  if (oldHabits && !localStorage.getItem('appState')) {
-    try {
-      const habits = JSON.parse(oldHabits);
-      localStorage.setItem('appState', JSON.stringify({ habits }));
-      localStorage.removeItem('habits');
-    } catch (e) {
-      console.error('Failed to migrate old habits:', e);
-    }
-  }
-})();
+// Page size dimensions for print CSS
+const PAGE_DIMENSIONS: Record<PageSize, string> = {
+  'Letter': '8.5in 11in',
+  'A4': '210mm 297mm',
+  'A5': '148mm 210mm',
+  'Legal': '8.5in 14in'
+};
 
 function App() {
-  // Load saved state from localStorage
-  const savedState = (() => {
-    try {
-      const saved = localStorage.getItem('appState');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        return {
-          habits: parsed.habits || [],
-          startDate: parseDate(parsed.startDate),
-          endDate: parseDate(parsed.endDate),
-          pageSize: parsed.pageSize || 'A4',
-          rowsPerPage: parsed.rowsPerPage || 31,
-          showCheckboxes: parsed.showCheckboxes ?? true,
-          direction: parsed.direction || 'ltr',
-          locale: parsed.locale || 'en',
-          dateFormat: parsed.dateFormat || 'default',
-        };
-      }
-    } catch (e) {
-      console.error('Failed to load saved state:', e);
-    }
-    return null;
-  })();
-
-  // Default dates
-  const today = new Date();
-  const thirtyDaysLater = new Date(today);
-  thirtyDaysLater.setDate(today.getDate() + 30);
-
-  // Habits state
-  const [habits, setHabits] = useState<Habit[]>(savedState?.habits || []);
-
-  // Date range state
-  const [startDate, setStartDate] = useState<Date>(savedState?.startDate || today);
-  const [endDate, setEndDate] = useState<Date>(savedState?.endDate || thirtyDaysLater);
-
-  // Page settings state
-  const [pageSize, setPageSize] = useState<PageSize>(savedState?.pageSize || 'A4');
-  const [rowsPerPage, setRowsPerPage] = useState<number>(savedState?.rowsPerPage || 31);
-  const [showCheckboxes, setShowCheckboxes] = useState<boolean>(savedState?.showCheckboxes ?? true);
-
-  // Direction state
-  const [direction, setDirection] = useState<Direction>(savedState?.direction || 'ltr');
-
-  // Locale state
-  const [locale, setLocale] = useState<Locale>(savedState?.locale || 'en');
-
-  // Date format state
-  const [dateFormat, setDateFormat] = useState<DateFormat>(savedState?.dateFormat || 'default');
-
-  // Persist all state to localStorage
-  useEffect(() => {
-    const state = {
-      habits,
-      startDate: startDate.toISOString(),
-      endDate: endDate.toISOString(),
-      pageSize,
-      rowsPerPage,
-      showCheckboxes,
-      direction,
-      locale,
-      dateFormat,
-    };
-    localStorage.setItem('appState', JSON.stringify(state));
-  }, [habits, startDate, endDate, pageSize, rowsPerPage, showCheckboxes, direction, locale, dateFormat]);
+  const {
+    // State
+    habits,
+    startDate,
+    endDate,
+    pageSize,
+    rowsPerPage,
+    showCheckboxes,
+    direction,
+    locale,
+    dateFormat,
+    // Handlers
+    handleAddHabit,
+    handleRemoveHabit,
+    handleReorderHabits,
+    handleToggleDirection,
+    handleSetStartDate,
+    handleSetEndDate,
+    handleSetPageSize,
+    handleSetRowsPerPage,
+    handleSetShowCheckboxes,
+    handleSetLocale,
+    handleSetDateFormat,
+  } = useAppState();
 
   // Generate date range
   const dates = useMemo(() => {
@@ -111,39 +58,13 @@ function App() {
     return result;
   }, [startDate, endDate]);
 
-  // Page size dimensions
-  const pageDimensions: Record<PageSize, string> = {
-    'Letter': '8.5in 11in',
-    'A4': '210mm 297mm',
-    'A5': '148mm 210mm',
-    'Legal': '8.5in 14in'
-  };
-
-  // Handlers
-  const handleAddHabit = (name: string) => {
-    const id = crypto.randomUUID();
-    setHabits(prev => [...prev, { id, name }]);
-  };
-
-  const handleRemoveHabit = (id: string) => {
-    setHabits(prev => prev.filter(h => h.id !== id));
-  };
-
-  const handleReorderHabits = (reorderedHabits: Habit[]) => {
-    setHabits(reorderedHabits);
-  };
-
-  const handleToggleDirection = () => {
-    setDirection(prev => prev === 'ltr' ? 'rtl' : 'ltr');
-  };
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Print styles for dynamic page size */}
       <style>{`
         @media print {
           @page {
-            size: ${pageDimensions[pageSize]};
+            size: ${PAGE_DIMENSIONS[pageSize]};
             margin: 10mm;
           }
         }
@@ -164,8 +85,9 @@ function App() {
             rel="noopener noreferrer"
             className="text-gray-500 hover:text-gray-700 transition-colors"
             title="View on GitHub"
+            aria-label="View on GitHub"
           >
-            <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+            <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
             </svg>
           </a>
@@ -193,10 +115,10 @@ function App() {
                 <DateRangePicker
                   startDate={startDate}
                   endDate={endDate}
-                  onStartDateChange={setStartDate}
-                  onEndDateChange={setEndDate}
+                  onStartDateChange={handleSetStartDate}
+                  onEndDateChange={handleSetEndDate}
                 />
-                <DateFormatSelector dateFormat={dateFormat} onChange={setDateFormat} />
+                <DateFormatSelector dateFormat={dateFormat} onChange={handleSetDateFormat} />
               </div>
             </section>
 
@@ -207,9 +129,9 @@ function App() {
                 pageSize={pageSize}
                 rowsPerPage={rowsPerPage}
                 showCheckboxes={showCheckboxes}
-                onPageSizeChange={setPageSize}
-                onRowsPerPageChange={setRowsPerPage}
-                onShowCheckboxesChange={setShowCheckboxes}
+                onPageSizeChange={handleSetPageSize}
+                onRowsPerPageChange={handleSetRowsPerPage}
+                onShowCheckboxesChange={handleSetShowCheckboxes}
               />
             </section>
 
@@ -217,7 +139,7 @@ function App() {
             <section className="bg-white rounded-lg shadow-sm p-6">
               <h2 className="text-lg font-semibold text-gray-800 mb-4">Layout & Print</h2>
               <div className="space-y-4">
-                <LocaleSelector locale={locale} onChange={setLocale} />
+                <LocaleSelector locale={locale} onChange={handleSetLocale} />
                 <DirectionToggle direction={direction} onToggle={handleToggleDirection} />
                 <PrintButton />
               </div>

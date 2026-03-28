@@ -1,3 +1,5 @@
+import { formatDateLocal, parseDateLocal } from '../utils/date';
+
 interface DateRangePickerProps {
   startDate: Date;
   endDate: Date;
@@ -6,7 +8,7 @@ interface DateRangePickerProps {
 }
 
 function formatDateForInput(date: Date): string {
-  return date.toISOString().split('T')[0];
+  return formatDateLocal(date);
 }
 
 export function DateRangePicker({
@@ -16,11 +18,11 @@ export function DateRangePicker({
   onEndDateChange,
 }: DateRangePickerProps) {
   const handleStartChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onStartDateChange(new Date(e.target.value));
+    onStartDateChange(parseDateLocal(e.target.value));
   };
 
   const handleEndChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onEndDateChange(new Date(e.target.value));
+    onEndDateChange(parseDateLocal(e.target.value));
   };
 
   const daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));

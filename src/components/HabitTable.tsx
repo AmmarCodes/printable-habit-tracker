@@ -1,4 +1,11 @@
 import type { Habit, Direction, Locale, DateFormat } from "../types";
+import {
+  ARABIC_DAYS,
+  ARABIC_MONTHS,
+  ENGLISH_DAYS,
+  ENGLISH_DAYS_SHORT,
+  ENGLISH_MONTHS_SHORT,
+} from "../constants/locales";
 
 interface HabitTableProps {
   habits: Habit[];
@@ -9,46 +16,6 @@ interface HabitTableProps {
   locale: Locale;
   dateFormat: DateFormat;
 }
-
-const ARABIC_DAYS = [
-  "الأحد",
-  "الإثنين",
-  "الثلاثاء",
-  "الأربعاء",
-  "الخميس",
-  "الجمعة",
-  "السبت",
-];
-const ARABIC_MONTHS = [
-  "يناير",
-  "فبراير",
-  "مارس",
-  "أبريل",
-  "مايو",
-  "يونيو",
-  "يوليو",
-  "أغسطس",
-  "سبتمبر",
-  "أكتوبر",
-  "نوفمبر",
-  "ديسمبر",
-];
-
-const ENGLISH_DAYS = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-];
-
-const ENGLISH_DAYS_SHORT = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-const ENGLISH_MONTHS_SHORT = [
-  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-];
 
 function formatDate(date: Date, locale: Locale, dateFormat: DateFormat): string {
   // ISO format - same for all locales

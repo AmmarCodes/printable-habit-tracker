@@ -1,7 +1,6 @@
 export interface Habit {
   id: string;
   name: string;
-  isEmpty?: boolean;
 }
 
 export type PageSize = 'Letter' | 'A4' | 'A5' | 'Legal';
