@@ -81,7 +81,7 @@ export function HabitTable({
         >
           <table className="w-full border-collapse">
             <thead>
-              <tr className="bg-gray-100">
+              <tr className="bg-gray-100 print:bg-white">
                 <th className="border border-gray-300 px-2 py-2 text-center text-xs font-semibold text-gray-800 uppercase tracking-wide w-px whitespace-nowrap">
                   #
                 </th>

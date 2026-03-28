@@ -58,7 +58,7 @@ function App() {
   }, [startDate, endDate]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 print:bg-white">
       {/* Print styles for dynamic page size */}
       <style>{`
         @media print {
