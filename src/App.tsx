@@ -1,11 +1,12 @@
 import { useState, useMemo, useEffect } from 'react';
-import type { Habit, PageSize, Direction } from './types';
+import type { Habit, PageSize, Direction, Locale } from './types';
 import { HabitForm } from './components/HabitForm';
 import { DateRangePicker } from './components/DateRangePicker';
 import { PageSettingsPanel } from './components/PageSettingsPanel';
 import { DirectionToggle } from './components/DirectionToggle';
 import { HabitTable } from './components/HabitTable';
 import { PrintButton } from './components/PrintButton';
+import { LocaleSelector } from './components/LocaleSelector';
 import './index.css';
 
 function App() {
@@ -30,6 +31,9 @@ function App() {
 
   // Direction state
   const [direction, setDirection] = useState<Direction>('ltr');
+
+  // Locale state
+  const [locale, setLocale] = useState<Locale>('en');
 
   // Persist habits to localStorage
   useEffect(() => {
@@ -138,6 +142,7 @@ function App() {
             <section className="bg-white rounded-lg shadow-sm p-6">
               <h2 className="text-lg font-semibold text-gray-800 mb-4">Layout & Print</h2>
               <div className="space-y-4">
+                <LocaleSelector locale={locale} onChange={setLocale} />
                 <DirectionToggle direction={direction} onToggle={handleToggleDirection} />
                 <PrintButton />
               </div>
@@ -153,6 +158,7 @@ function App() {
             rowsPerPage={rowsPerPage}
             showCheckboxes={showCheckboxes}
             direction={direction}
+            locale={locale}
           />
         </section>
       </div>

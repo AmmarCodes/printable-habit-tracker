@@ -1,4 +1,4 @@
-import type { Habit, Direction } from '../types';
+import type { Habit, Direction, Locale } from '../types';
 
 interface HabitTableProps {
   habits: Habit[];
@@ -6,9 +6,20 @@ interface HabitTableProps {
   rowsPerPage: number;
   showCheckboxes: boolean;
   direction: Direction;
+  locale: Locale;
 }
 
-function formatDate(date: Date): string {
+const ARABIC_DAYS = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+const ARABIC_MONTHS = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+
+function formatDate(date: Date, locale: Locale): string {
+  if (locale === 'ar') {
+    const dayName = ARABIC_DAYS[date.getDay()];
+    const dayNum = String(date.getDate()).padStart(2, '0');
+    const monthName = ARABIC_MONTHS[date.getMonth()];
+    return `${dayName} ${dayNum} ${monthName}`;
+  }
+  
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   return `${days[date.getDay()]} ${months[date.getMonth()]} ${String(date.getDate()).padStart(2, '0')}`;
@@ -24,6 +35,7 @@ export function HabitTable({
   rowsPerPage,
   showCheckboxes,
   direction,
+  locale,
 }: HabitTableProps) {
   if (habits.length === 0) {
     return (
@@ -78,7 +90,7 @@ export function HabitTable({
                       {formatDayNumber(date, globalIndex)}
                     </td>
                     <td className="border border-gray-300 px-2 py-2 text-sm text-gray-600 w-px whitespace-nowrap">
-                      {formatDate(date)}
+                      {formatDate(date, locale)}
                     </td>
                     {habits.map((habit) => (
                       <td
