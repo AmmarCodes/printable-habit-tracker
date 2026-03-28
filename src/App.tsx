@@ -70,7 +70,7 @@ function App() {
       `}</style>
       
       {/* Main content */}
-      <div className="max-w-6xl mx-auto p-6">
+      <main className="max-w-6xl mx-auto p-6">
         {/* Header */}
         <header className="mb-8 no-print flex items-center gap-3">
           <img src="/favicon.svg" alt="Logo" className="w-14 h-14" />
@@ -172,7 +172,7 @@ function App() {
             </a>
           </p>
         </footer>
-      </div>
+      </main>
     </div>
   );
 }

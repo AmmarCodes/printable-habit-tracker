@@ -32,8 +32,9 @@ export function DateRangePicker({
   return (
     <div className="space-y-3">
       <div>
-        <label className="block text-sm text-gray-600 mb-1">Start Date</label>
+        <label htmlFor="start-date" className="block text-sm text-gray-600 mb-1">Start Date</label>
         <input
+          id="start-date"
           type="date"
           value={formatDateForInput(startDate)}
           onChange={handleStartChange}
@@ -41,8 +42,9 @@ export function DateRangePicker({
         />
       </div>
       <div>
-        <label className="block text-sm text-gray-600 mb-1">End Date</label>
+        <label htmlFor="end-date" className="block text-sm text-gray-600 mb-1">End Date</label>
         <input
+          id="end-date"
           type="date"
           value={formatDateForInput(endDate)}
           onChange={handleEndChange}

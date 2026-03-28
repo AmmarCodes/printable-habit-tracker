@@ -37,8 +37,9 @@ export function PageSettingsPanel({
     <div className="space-y-4">
       {/* Page Size */}
       <div>
-        <label className="block text-sm text-gray-600 mb-2">Page Size</label>
+        <label htmlFor="page-size" className="block text-sm text-gray-600 mb-2">Page Size</label>
         <select
+          id="page-size"
           value={pageSize}
           onChange={(e) => onPageSizeChange(e.target.value as PageSize)}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
@@ -53,8 +54,9 @@ export function PageSettingsPanel({
 
       {/* Rows Per Page */}
       <div>
-        <label className="block text-sm text-gray-600 mb-2">Rows Per Page</label>
+        <label htmlFor="rows-per-page" className="block text-sm text-gray-600 mb-2">Rows Per Page</label>
         <input
+          id="rows-per-page"
           type="number"
           min="1"
           max="100"
@@ -67,8 +69,9 @@ export function PageSettingsPanel({
 
       {/* Show Checkboxes */}
       <div>
-        <label className="flex items-center gap-2 cursor-pointer">
+        <label htmlFor="show-checkboxes" className="flex items-center gap-2 cursor-pointer">
           <input
+            id="show-checkboxes"
             type="checkbox"
             checked={showCheckboxes}
             onChange={(e) => onShowCheckboxesChange(e.target.checked)}

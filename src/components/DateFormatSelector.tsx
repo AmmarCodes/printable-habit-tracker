@@ -14,8 +14,9 @@ const DATE_FORMATS: { value: DateFormat; label: string; example: string }[] = [
 export function DateFormatSelector({ dateFormat, onChange }: DateFormatSelectorProps) {
   return (
     <div>
-      <label className="block text-sm text-gray-600 mb-2">Date Format</label>
+      <label htmlFor="date-format" className="block text-sm text-gray-600 mb-2">Date Format</label>
       <select
+        id="date-format"
         value={dateFormat}
         onChange={(e) => onChange(e.target.value as DateFormat)}
         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent cursor-pointer"

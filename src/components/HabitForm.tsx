@@ -25,7 +25,9 @@ export function HabitForm({ habits, onAdd, onRemove }: HabitFormProps) {
   return (
     <div>
       <form onSubmit={handleSubmit} className="flex gap-2 mb-4">
+        <label htmlFor="new-habit" className="sr-only">New habit name</label>
         <input
+          id="new-habit"
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}

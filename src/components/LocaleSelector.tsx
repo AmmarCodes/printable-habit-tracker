@@ -13,8 +13,9 @@ const LOCALES: { value: Locale; label: string }[] = [
 export function LocaleSelector({ locale, onChange }: LocaleSelectorProps) {
   return (
     <div>
-      <label className="block text-sm text-gray-600 mb-2">Date Language</label>
+      <label htmlFor="locale" className="block text-sm text-gray-600 mb-2">Date Language</label>
       <select
+        id="locale"
         value={locale}
         onChange={(e) => onChange(e.target.value as Locale)}
         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent"
