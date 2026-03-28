@@ -2,7 +2,9 @@
 
 A simple, clean habits tracker that generates printable habit tables. Define your habits, set your date range, and print a beautiful tracker to use offline.
 
-![Preview](public/favicon.svg)
+![Printable Habit Tracker Screenshot 1](public/printable-habit-tracker.png)
+
+![Printable Habit Tracker Screenshot 2](public/printable-habit-tracker-2.png)
 
 ## Features
 
@@ -22,6 +24,7 @@ A simple, clean habits tracker that generates printable habit tables. Define you
 ### 1. Add Your Habits
 
 Enter the habits you want to track in the "Your Habits" section. You can:
+
 - Type a habit name and click "Add"
 - Click "Add Empty" to create blank columns you can fill in by hand later
 - Drag and drop to reorder habits
@@ -30,6 +33,7 @@ Enter the habits you want to track in the "Your Habits" section. You can:
 ### 2. Set Your Date Settings
 
 Choose the start and end dates for your tracker, and select how dates should be formatted:
+
 - **Default**: `Mon Jan 01`
 - **ISO**: `2024-01-01`
 - **Day Only**: `Monday`
@@ -62,7 +66,7 @@ Click the "Print" button to open your browser's print dialog. Each page will con
 
 ```bash
 # Clone the repository
-git clone https://github.com/ammaralk/printable-habits.git
+git clone https://github.com/AmmarCodes/printable-habits.git
 cd printable-habits
 
 # Install dependencies
@@ -99,8 +103,8 @@ For best results when printing:
 
 ## License
 
-ISC
+MIT
 
 ---
 
-Developed by [Ammar Alakkad](https://github.com/ammaralk)
+Developed by [Ammar Alakkad](https://ammar.codes)

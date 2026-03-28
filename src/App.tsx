@@ -165,7 +165,7 @@ function App() {
           <p>
             Developed by{' '}
             <a
-              href="https://github.com/ammaralk"
+              href="https://ammar.codes"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-700 hover:text-gray-900 font-medium transition-colors"
