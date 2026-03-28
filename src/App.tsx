@@ -79,7 +79,7 @@ function App() {
             <p className="text-gray-600 mt-1">Define your habits, set your date range, and print a clean tracker.</p>
           </div>
           <a
-            href="https://github.com/ammaralk/printable-habits"
+            href="https://github.com/AmmarCodes/printable-habit-tracker"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-500 hover:text-gray-700 transition-colors"
