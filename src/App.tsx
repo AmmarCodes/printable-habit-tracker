@@ -94,9 +94,12 @@ function App() {
       {/* Main content */}
       <div className="max-w-6xl mx-auto p-6">
         {/* Header */}
-        <header className="mb-8 no-print">
-          <h1 className="text-3xl font-bold text-gray-800">Printable Habits Tracker</h1>
-          <p className="text-gray-600 mt-2">Define your habits, set your date range, and print a clean tracker.</p>
+        <header className="mb-8 no-print flex items-center gap-3">
+          <img src="/favicon.svg" alt="Logo" className="w-14 h-14" />
+          <div>
+            <h1 className="text-3xl font-bold text-gray-800">Printable Habits Tracker</h1>
+            <p className="text-gray-600 mt-1">Define your habits, set your date range, and print a clean tracker.</p>
+          </div>
         </header>
 
         {/* Controls - hidden in print */}

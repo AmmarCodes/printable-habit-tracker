@@ -20,6 +20,10 @@ export function HabitForm({ habits, onAdd, onRemove, onReorder }: HabitFormProps
     }
   };
 
+  const handleAddEmpty = () => {
+    onAdd(''); // Empty habit name
+  };
+
   const handleDragEnd = (result: { destination: { index: number } | null; source: { index: number } }) => {
     if (!result.destination) return;
     
@@ -45,6 +49,14 @@ export function HabitForm({ habits, onAdd, onRemove, onReorder }: HabitFormProps
           className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition-colors"
         >
           Add
+        </button>
+        <button
+          type="button"
+          onClick={handleAddEmpty}
+          className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors"
+          title="Add empty column to fill in by hand"
+        >
+          Add Empty
         </button>
       </form>
 
@@ -72,11 +84,13 @@ export function HabitForm({ habits, onAdd, onRemove, onReorder }: HabitFormProps
                             : 'border-gray-300'
                         }`}
                       >
-                        <span>{habit.name}</span>
+                        <span className={!habit.name ? 'text-gray-400 italic' : ''}>
+                          {habit.name || '(empty)'}
+                        </span>
                         <button
                           onClick={() => onRemove(habit.id)}
                           className="ml-1 w-4 h-4 flex items-center justify-center text-gray-500 hover:text-gray-800 transition-colors"
-                          aria-label={`Remove ${habit.name}`}
+                          aria-label={`Remove ${habit.name || 'empty habit'}`}
                         >
                           ×
                         </button>

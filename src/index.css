@@ -26,6 +26,32 @@
     display: block;
   }
 
+  /* Remove section margin in print for consistent top alignment */
+  section.mt-8 {
+    margin-top: 0 !important;
+  }
+
+  /* Remove gap from parent container in print */
+  .space-y-8 {
+    gap: 0 !important;
+  }
+
+  /* Each printed table is self-contained */
+  .print-table {
+    break-before: page;
+    page-break-before: always;
+    padding-top: 8mm;
+    box-shadow: none !important;
+    overflow: visible !important;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+  }
+
+  .print-table:first-child {
+    break-before: avoid;
+    page-break-before: avoid;
+  }
+
   @page {
     size: A4;
     margin: 10mm;
