@@ -12,9 +12,10 @@ A simple, clean habits tracker that generates printable habit tables. Define you
 - **Multiple Page Sizes** - Support for A4, Letter, A5, and Legal paper sizes
 - **RTL Support** - Toggle between LTR and RTL layouts for Arabic and other RTL languages
 - **Locale Support** - Date formatting in English and Arabic
+- **Date Formats** - Choose between Default (Mon Jan 01), ISO (2024-01-01), or Day Only (Monday)
 - **Print-Ready** - Clean tables with proper page breaks for printing
 - **Optional Checkboxes** - Toggle checkbox visibility in cells
-- **Persistent Storage** - Habits are saved to localStorage automatically
+- **Persistent Storage** - All settings saved to localStorage automatically
 
 ## How It Works
 
@@ -38,7 +39,11 @@ Choose the start and end dates for your tracker. The default is 30 days from tod
 
 ### 4. Choose Your Layout
 
-- **Locale** - Select date formatting (English or Arabic)
+- **Locale** - Select date formatting language (English or Arabic)
+- **Date Format** - Choose how dates appear:
+  - Default: `Mon Jan 01`
+  - ISO: `2024-01-01`
+  - Day Only: `Monday`
 - **Direction** - Toggle between LTR and RTL layouts
 
 ### 5. Print

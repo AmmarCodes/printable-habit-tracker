@@ -15,3 +15,5 @@ export interface PageSettings {
 export type Direction = 'ltr' | 'rtl';
 
 export type Locale = 'en' | 'ar';
+
+export type DateFormat = 'default' | 'iso' | 'dayName';

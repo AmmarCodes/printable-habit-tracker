@@ -1,4 +1,4 @@
-import type { Habit, Direction, Locale } from "../types";
+import type { Habit, Direction, Locale, DateFormat } from "../types";
 
 interface HabitTableProps {
   habits: Habit[];
@@ -7,6 +7,7 @@ interface HabitTableProps {
   showCheckboxes: boolean;
   direction: Direction;
   locale: Locale;
+  dateFormat: DateFormat;
 }
 
 const ARABIC_DAYS = [
@@ -33,30 +34,48 @@ const ARABIC_MONTHS = [
   "ديسمبر",
 ];
 
-function formatDate(date: Date, locale: Locale): string {
-  if (locale === "ar") {
+const ENGLISH_DAYS = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
+const ENGLISH_DAYS_SHORT = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const ENGLISH_MONTHS_SHORT = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+];
+
+function formatDate(date: Date, locale: Locale, dateFormat: DateFormat): string {
+  // ISO format - same for all locales
+  if (dateFormat === 'iso') {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+  // Day name only
+  if (dateFormat === 'dayName') {
+    if (locale === 'ar') {
+      return ARABIC_DAYS[date.getDay()];
+    }
+    return ENGLISH_DAYS[date.getDay()];
+  }
+
+  // Default format
+  if (locale === 'ar') {
     const dayName = ARABIC_DAYS[date.getDay()];
-    const dayNum = String(date.getDate()).padStart(2, "0");
+    const dayNum = String(date.getDate()).padStart(2, '0');
     const monthName = ARABIC_MONTHS[date.getMonth()];
     return `${dayName} ${dayNum} ${monthName}`;
   }
 
-  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  return `${days[date.getDay()]} ${months[date.getMonth()]} ${String(date.getDate()).padStart(2, "0")}`;
+  return `${ENGLISH_DAYS_SHORT[date.getDay()]} ${ENGLISH_MONTHS_SHORT[date.getMonth()]} ${String(date.getDate()).padStart(2, '0')}`;
 }
 
 function formatDayNumber(_date: Date, index: number): string {
@@ -70,6 +89,7 @@ export function HabitTable({
   showCheckboxes,
   direction,
   locale,
+  dateFormat,
 }: HabitTableProps) {
   if (habits.length === 0) {
     return (
@@ -124,7 +144,7 @@ export function HabitTable({
                       {formatDayNumber(date, globalIndex)}
                     </td>
                     <td className="border border-gray-300 px-2 py-2 text-sm text-gray-600 w-px whitespace-nowrap">
-                      {formatDate(date, locale)}
+                      {formatDate(date, locale, dateFormat)}
                     </td>
                     {habits.map((habit) => (
                       <td

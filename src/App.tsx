@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
-import type { Habit, PageSize, Direction, Locale } from './types';
+import type { Habit, PageSize, Direction, Locale, DateFormat } from './types';
 import { HabitForm } from './components/HabitForm';
 import { DateRangePicker } from './components/DateRangePicker';
 import { PageSettingsPanel } from './components/PageSettingsPanel';
@@ -7,6 +7,7 @@ import { DirectionToggle } from './components/DirectionToggle';
 import { HabitTable } from './components/HabitTable';
 import { PrintButton } from './components/PrintButton';
 import { LocaleSelector } from './components/LocaleSelector';
+import { DateFormatSelector } from './components/DateFormatSelector';
 import './index.css';
 
 // Helper to parse saved date strings
@@ -46,6 +47,7 @@ function App() {
           showCheckboxes: parsed.showCheckboxes ?? true,
           direction: parsed.direction || 'ltr',
           locale: parsed.locale || 'en',
+          dateFormat: parsed.dateFormat || 'default',
         };
       }
     } catch (e) {
@@ -77,6 +79,9 @@ function App() {
   // Locale state
   const [locale, setLocale] = useState<Locale>(savedState?.locale || 'en');
 
+  // Date format state
+  const [dateFormat, setDateFormat] = useState<DateFormat>(savedState?.dateFormat || 'default');
+
   // Persist all state to localStorage
   useEffect(() => {
     const state = {
@@ -88,9 +93,10 @@ function App() {
       showCheckboxes,
       direction,
       locale,
+      dateFormat,
     };
     localStorage.setItem('appState', JSON.stringify(state));
-  }, [habits, startDate, endDate, pageSize, rowsPerPage, showCheckboxes, direction, locale]);
+  }, [habits, startDate, endDate, pageSize, rowsPerPage, showCheckboxes, direction, locale, dateFormat]);
 
   // Generate date range
   const dates = useMemo(() => {
@@ -209,6 +215,7 @@ function App() {
               <h2 className="text-lg font-semibold text-gray-800 mb-4">Layout & Print</h2>
               <div className="space-y-4">
                 <LocaleSelector locale={locale} onChange={setLocale} />
+                <DateFormatSelector dateFormat={dateFormat} onChange={setDateFormat} />
                 <DirectionToggle direction={direction} onToggle={handleToggleDirection} />
                 <PrintButton />
               </div>
@@ -225,6 +232,7 @@ function App() {
             showCheckboxes={showCheckboxes}
             direction={direction}
             locale={locale}
+            dateFormat={dateFormat}
           />
         </section>
 
